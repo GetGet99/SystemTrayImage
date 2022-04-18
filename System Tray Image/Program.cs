@@ -6,6 +6,10 @@ using Microsoft.Win32;
 using Properties = SystemTrayImage.Properties;
 using AppContext = SystemTrayImage.AppContext;
 
+var thread = Thread.CurrentThread;
+thread.SetApartmentState(ApartmentState.Unknown);
+thread.SetApartmentState(ApartmentState.STA);
+
 ApplicationConfiguration.Initialize();
 
 if (!Properties.Settings.Default.FirstRun)
@@ -23,6 +27,6 @@ else
     );
     Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)
     ?.SetValue("FloatingImage", Application.ExecutablePath);
-    
+
     Application.Run(new IntroForm() { Icon = AppContext.IconImage });
 }
